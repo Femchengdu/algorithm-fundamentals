@@ -15,7 +15,6 @@ function selectionSort(array) {
       copiedArray[outer] = copiedArray[currentMinIdx];
       copiedArray[currentMinIdx] = currentOuter;
     }
-    debugger;
     // Reset the currentMinValue
     currentMinVal = Number.MAX_SAFE_INTEGER;
   }
