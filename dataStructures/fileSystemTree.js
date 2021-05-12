@@ -58,6 +58,36 @@ class Node {
       existingChildNode.removeNode(segments.slice(1).join("/"));
     }
   }
+
+  findDepthFirst(value) {
+    // Depth First
+    console.log(this);
+    for (const child of this.children) {
+      if (child.value === value) {
+        return child;
+      }
+      const nestedChild = child.find(value);
+      if (nestedChild) {
+        return nestedChild;
+      }
+    }
+  }
+
+  findBreathFirst(value) {
+    // Breath First
+    console.log(this);
+    for (const child of this.children) {
+      if (child.value === value) {
+        return child;
+      }
+    }
+    for (const child of this.children) {
+      const nestedChild = child.findBreathFirst(value);
+      if (nestedChild) {
+        return nestedChild;
+      }
+    }
+  }
 }
 
 class Tree {
@@ -71,16 +101,24 @@ class Tree {
   remove(path) {
     this.root.removeNode(path);
   }
+  find(value) {
+    if (this.root.value === value) {
+      return this.root;
+    }
+    return this.root.findBreathFirst(value);
+  }
 }
 
 const fileSystem = new Tree("/");
 
 fileSystem.add("documents");
-fileSystem.add("documents/personal/tax.docx");
+fileSystem.add("documents/myTaxFiles/tax.docx");
+fileSystem.add("personal");
 fileSystem.add("pics/photo1.jpeg");
 fileSystem.add("pics/photo2.jpeg");
 fileSystem.remove("pics/photo2.jpeg");
 //fileSystem.remove("pics/photo5.jpeg");
 //fileSystem.remove("picsssss/photo2.jpeg");
+console.log(fileSystem.find("personal"));
 
 console.log("fs tree: ", fileSystem);
